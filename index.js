@@ -1,20 +1,27 @@
 const express = require("express");
 const app = express();
-require("dotenv").config();
-const sf_login = require("./utils/sf_login");
-const sf_search = require("./utils/sf_search");
+const login = require("./api/login");
+const search = require("./api/search");
+const find = require("./api/find");
 
+const db = require("./utils/db");
+
+require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/login", (req, res) => {
-  sf_login();
+app.post("/login", async (req, res) => {
+  res.json(await login());
 });
 
-app.post("/search", (req, res) => {
-  sf_search(req, res);
+app.post("/search", async (req, res) => {
+  res.json(await search(req, res));
+});
+
+app.post("/find", async (req, res) => {
+  res.json(await find(req, res));
 });
 
 app.listen(port, () => {

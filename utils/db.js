@@ -1,6 +1,8 @@
 const mysql = require("mysql");
-const path = require("path");
 require("dotenv").config();
+const logger = require("./logger");
+
+const method_name = "db";
 
 var conn = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -11,6 +13,7 @@ var conn = mysql.createConnection({
 
 conn.connect((err) => {
   if (err) {
+    logger("Error connecting to Db", "???API_KEY???", method_name);
     console.log("Error connecting to Db");
     return;
   }
