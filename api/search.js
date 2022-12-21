@@ -33,9 +33,7 @@ const search = async (req, res) => {
     return;
   }
 
-  let checkApiKey = check_api_key(API_KEY);
-  console.log("checkApiKey", checkApiKey);
-
+  let checkApiKey = await check_api_key(API_KEY);
   if (!checkApiKey) {
     logger("Invalid API_KEY", API_KEY, method_name);
     res.status(400).json({ message: "Invalid API_KEY", status: false });

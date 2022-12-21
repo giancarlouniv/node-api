@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 require("dotenv").config();
 const login = require("./login");
 const logger = require("../utils/logger");
+const check_api_key = require("../utils/check_api_key");
 
 const method_name = "find";
 
@@ -10,6 +11,13 @@ const find = async (req, res) => {
   if (!API_KEY) {
     logger("Missing API_KEY", "???API_KEY???", method_name);
     res.status(400).json({ message: "Missing API_KEY", status: false });
+    return;
+  }
+
+  let checkApiKey = await check_api_key(API_KEY);
+  if (!checkApiKey) {
+    logger("Invalid API_KEY", API_KEY, method_name);
+    res.status(400).json({ message: "Invalid API_KEY", status: false });
     return;
   }
 
